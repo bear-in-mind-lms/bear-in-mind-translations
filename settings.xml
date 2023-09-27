@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 http://maven.apache.org/xsd/settings-1.2.0.xsd"
+          xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <servers>
+        <server>
+            <id>github</id>
+            <password>${GITHUB_TOKEN}</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <repositories>
+                <repository>
+                    <id>1_maven.apache.org</id>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                    <layout>default</layout>
+                </repository>
+                <repository>
+                    <id>bear-in-mind-exceptions</id>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <url>https://github.com/bear-in-mind-lms/bear-in-mind-exceptions/raw/mvn-artifact</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>default</activeProfile>
+    </activeProfiles>
+</settings>

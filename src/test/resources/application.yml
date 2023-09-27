@@ -1,0 +1,14 @@
+application:
+  locale: en
+
+spring:
+  application:
+    name: bear-in-mind-translations
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        generate_statistics: true
+  liquibase:
+    change-log: classpath:com/kwezal/bearinmind/translation/db/changelog/changelog-master.yml

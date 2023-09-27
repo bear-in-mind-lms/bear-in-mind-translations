@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0000_INIT
+      author: collaborator
+      changes:
+        - createTable:
+            tableName: translations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: translations_pkey
+              - column:
+                  name: identifier
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locale
+                  type: varchar(4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: text
+                  type: varchar(10240)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: translations_identifier_locale_key
+            tableName: translations
+            columnNames: identifier, locale
+            clustered: false
+        - createSequence:
+            sequenceName: translations_identifier_seq
+            dataType: int

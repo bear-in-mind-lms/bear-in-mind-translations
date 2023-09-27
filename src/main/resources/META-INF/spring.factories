@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.kwezal.bearinmind.translation.mapper.TranslationMapperImpl,\
+com.kwezal.bearinmind.translation.service.TranslationValidationService,\
+com.kwezal.bearinmind.translation.service.TranslationService,\
+com.kwezal.bearinmind.translation.config.BearInMindTranslationsConfig
