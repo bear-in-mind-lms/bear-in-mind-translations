@@ -5,16 +5,17 @@ import com.kwezal.bearinmind.translation.model.Translation;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface TranslationRepository extends JpaRepository<Translation, Long> {
+public interface TranslationRepository extends JpaRepository<@NonNull Translation, @NonNull Long> {
     Optional<Translation> findByIdentifierAndLocale(Integer identifier, String locale);
 
     List<Translation> findAllByIdentifier(Integer identifier);
 
+    // this method can be used from outside the library
+    @SuppressWarnings("unused")
     List<Translation> findAllByIdentifierIn(Set<Integer> identifier);
 
     boolean existsByIdentifier(Integer identifier);

@@ -1,12 +1,12 @@
 package com.kwezal.bearinmind.translation.validation.annotation;
 
 import com.kwezal.bearinmind.translation.validation.LocaleValidator;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import javax.validation.Constraint;
-import javax.validation.Payload;
 
 @Constraint(validatedBy = LocaleValidator.class)
 @Target({ ElementType.TYPE_USE, ElementType.FIELD, ElementType.PARAMETER })

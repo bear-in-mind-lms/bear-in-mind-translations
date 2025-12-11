@@ -8,12 +8,8 @@ import com.kwezal.bearinmind.translation.validation.annotation.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
-@Service
-class TranslationValidationService {
+final class TranslationValidator {
 
     /**
      * Throws exception if a given mapping of locale to field texts does not include a given locale.

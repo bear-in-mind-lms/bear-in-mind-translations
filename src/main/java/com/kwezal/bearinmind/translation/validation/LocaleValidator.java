@@ -3,8 +3,8 @@ package com.kwezal.bearinmind.translation.validation;
 import static java.util.Objects.isNull;
 
 import com.kwezal.bearinmind.translation.validation.annotation.Locale;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class LocaleValidator implements ConstraintValidator<Locale, String> {
 

@@ -1,12 +1,10 @@
 package com.kwezal.bearinmind.translation.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenerationTime;
-import org.hibernate.annotations.GeneratorType;
 
 @Entity
 @Table(name = "translations")
@@ -21,7 +19,7 @@ public class Translation {
     Long id;
 
     @Column(nullable = false)
-    @GeneratorType(type = TranslationIdentifierGenerator.class, when = GenerationTime.INSERT)
+    @GeneratedTranslationIdentifier
     Integer identifier;
 
     @Column(nullable = false)
