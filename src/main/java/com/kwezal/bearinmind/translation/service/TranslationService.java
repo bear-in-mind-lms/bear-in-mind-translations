@@ -11,7 +11,6 @@ import com.kwezal.bearinmind.translation.dto.TranslationIdentifierAndTextDto;
 import com.kwezal.bearinmind.translation.dto.TranslationTextDto;
 import com.kwezal.bearinmind.translation.mapper.TranslationMapper;
 import com.kwezal.bearinmind.translation.model.Translation;
-import com.kwezal.bearinmind.translation.model.Translation_;
 import com.kwezal.bearinmind.translation.repository.TranslationRepository;
 import com.kwezal.bearinmind.translation.utils.CollectionUtils;
 import com.kwezal.bearinmind.translation.validation.annotation.Locale;
@@ -34,7 +33,7 @@ public class TranslationService {
 
     private final TranslationRepository translationRepository;
     private final TranslationMapper translationMapper;
-    private final TranslationValidationService translationValidationService;
+    private final TranslationValidator translationValidator = new TranslationValidator();
 
     /**
      * Creates a translation in the application locale.
@@ -75,7 +74,7 @@ public class TranslationService {
             return null;
         }
 
-        translationValidationService.validateIfTranslationsInLocaleExist(localeTextMap, applicationLocale);
+        translationValidator.validateIfTranslationsInLocaleExist(localeTextMap, applicationLocale);
 
         // Make a copy to avoid modifying the passed argument
         final var localeTextWithoutApplicationLocaleMap = new HashMap<>(localeTextMap);
@@ -114,20 +113,20 @@ public class TranslationService {
             return Map.of();
         }
 
-        translationValidationService.validateIfTranslationsInLocaleExist(localeFieldTextsMap, applicationLocale);
+        translationValidator.validateIfTranslationsInLocaleExist(localeFieldTextsMap, applicationLocale);
 
         // Make a copy to avoid modifying the passed argument
         final var localeTextWithoutApplicationLocaleMap = new HashMap<>(localeFieldTextsMap);
 
         final var applicationLocaleFieldTextMap = localeTextWithoutApplicationLocaleMap.remove(applicationLocale);
 
-        translationValidationService.validateIfTranslationsHaveRequiredFields(applicationLocaleFieldTextMap, requiredFields);
-        translationValidationService.validateIfTranslationsContainOnlyExpectedFields(
+        translationValidator.validateIfTranslationsHaveRequiredFields(applicationLocaleFieldTextMap, requiredFields);
+        translationValidator.validateIfTranslationsContainOnlyExpectedFields(
             applicationLocaleFieldTextMap,
             requiredFields,
             optionalFields
         );
-        translationValidationService.validateIfFieldIsNotDefinedIfNotPresentInLocale(
+        translationValidator.validateIfFieldIsNotDefinedIfNotPresentInLocale(
             localeTextWithoutApplicationLocaleMap,
             applicationLocaleFieldTextMap
         );
@@ -194,11 +193,11 @@ public class TranslationService {
      */
     @Transactional(readOnly = false)
     public void updateMultilingualTranslation(final Integer identifier, final Map<@Locale String, String> localeTextMap) {
-        translationValidationService.validateIfTranslationsInLocaleExist(localeTextMap, applicationLocale);
+        translationValidator.validateIfTranslationsInLocaleExist(localeTextMap, applicationLocale);
 
         final var translations = translationRepository.findAllByIdentifier(identifier);
         if (translations.isEmpty()) {
-            throw new ResourceNotFoundException(Translation.class, Map.of(Translation_.IDENTIFIER, identifier));
+            throw new ResourceNotFoundException(Translation.class, Map.of("identifier", identifier));
         }
 
         // Make a copy to avoid modifying the passed argument
@@ -282,9 +281,9 @@ public class TranslationService {
             new ResourceNotFoundException(
                 Translation.class,
                 Map.of(
-                    Translation_.IDENTIFIER,
+                    "identifier",
                     identifier,
-                    Translation_.LOCALE,
+                    "locale",
                     applicationLocale.equals(locale) ? List.of(locale) : List.of(locale, applicationLocale)
                 )
             )
@@ -365,16 +364,13 @@ public class TranslationService {
         return translationRepository
             .findByIdentifierAndLocale(identifier, locale)
             .orElseThrow(() ->
-                new ResourceNotFoundException(
-                    Translation.class,
-                    Map.of(Translation_.IDENTIFIER, identifier, Translation_.LOCALE, locale)
-                )
+                new ResourceNotFoundException(Translation.class, Map.of("identifier", identifier, "locale", locale))
             );
     }
 
     private void requireExistsByIdentifier(final Integer identifier) {
         if (!translationRepository.existsByIdentifier(identifier)) {
-            throw new ResourceNotFoundException(Translation.class, Map.of(Translation_.IDENTIFIER, identifier.toString()));
+            throw new ResourceNotFoundException(Translation.class, Map.of("identifier", identifier.toString()));
         }
     }
 }

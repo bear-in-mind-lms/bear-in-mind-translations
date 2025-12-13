@@ -29,7 +29,7 @@ multilingual texts.
 
 <project>
     <properties>
-        <bear-in-mind-translations.version>0.0.1</bear-in-mind-translations.version>
+        <bear-in-mind-translations.version>0.0.2</bear-in-mind-translations.version>
     </properties>
 
     <dependencies>
